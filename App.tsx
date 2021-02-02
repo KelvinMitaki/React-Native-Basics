@@ -6,19 +6,29 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
+import { Button, Overlay } from "react-native-elements";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [goal, setGoal] = useState<string>("");
+  const [modal, setModal] = useState<boolean>(false);
   const [goals, setGoals] = useState<string[]>([]);
+
   return (
     <SafeAreaView
       style={{
         flex: 1
       }}
     >
-      <GoalInput goal={goal} setGoal={setGoal} setGoals={setGoals} />
+      <Button
+        containerStyle={{ marginTop: 50, width: "90%", alignSelf: "center" }}
+        title="Add New Goal"
+        onPress={() => setModal(m => !m)}
+      />
+      <Overlay isVisible={modal} onBackdropPress={() => setModal(false)}>
+        <GoalInput goal={goal} setGoal={setGoal} setGoals={setGoals} />
+      </Overlay>
       <FlatList
         data={goals}
         keyExtractor={(_, i) => i.toString()}

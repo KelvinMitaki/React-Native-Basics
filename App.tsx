@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 
 export default function App() {
+  const [goal, setGoal] = useState<string>("");
+  const [goals, setGoals] = useState<string[]>([]);
   return (
     <SafeAreaView
       style={{
@@ -11,8 +13,18 @@ export default function App() {
       }}
     >
       <View style={styles.container}>
-        <Input placeholder="Course Goal" containerStyle={{ width: "70%" }} />
-        <Button title="ADD" containerStyle={{ width: "20%" }} />
+        <Input
+          placeholder="Course Goal"
+          containerStyle={{ width: "70%" }}
+          onChangeText={setGoal}
+          value={goal}
+        />
+        <Button
+          title="ADD"
+          containerStyle={{ width: "20%" }}
+          disabled={!goal.trim().length}
+          onPress={() => setGoals(g => [...g, goal])}
+        />
       </View>
     </SafeAreaView>
   );

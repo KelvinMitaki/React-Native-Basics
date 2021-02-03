@@ -1,48 +1,23 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity
-} from "react-native";
-import { Button, Overlay } from "react-native-elements";
-import GoalInput from "./components/GoalInput";
-import GoalItem from "./components/GoalItem";
+import React from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Button, Header } from "react-native-elements";
+// import Header from "./components/Header";
 
-export default function App() {
-  const [goal, setGoal] = useState<string>("");
-  const [modal, setModal] = useState<boolean>(false);
-  const [goals, setGoals] = useState<string[]>([]);
-
+const App = () => {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1
-      }}
-    >
-      <Button
-        containerStyle={{ marginTop: 50, width: "90%", alignSelf: "center" }}
-        title="Add New Goal"
-        onPress={() => setModal(m => !m)}
-      />
-      <Overlay isVisible={modal} onBackdropPress={() => setModal(false)}>
-        <GoalInput goal={goal} setGoal={setGoal} setGoals={setGoals} />
-      </Overlay>
-      <FlatList
-        data={goals}
-        keyExtractor={(_, i) => i.toString()}
-        renderItem={({ item, index }) => (
-          <TouchableOpacity
-            onPress={() => setGoals(g => g.filter((_, i) => index !== i))}
-          >
-            <GoalItem title={item} />
-          </TouchableOpacity>
-        )}
-        style={{ marginHorizontal: 10 }}
+    <SafeAreaView>
+      {/* <Header /> */}
+      <Header
+        placement="left"
+        leftComponent={{ icon: "menu", color: "#fff" }}
+        centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
+        rightComponent={{ icon: "home", color: "#fff" }}
+        containerStyle={{ marginTop: 20 }}
       />
     </SafeAreaView>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({});

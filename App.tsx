@@ -6,12 +6,31 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import { Header } from "react-native-elements";
+import GameOverScreen from "./screens/GameOverScreen";
 import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 // import Header from "./components/Header";
 
 const App = () => {
   const [userNumber, setUserNumber] = useState<number | null>(null);
+  const [guessRounds, setGuessRounds] = useState<number>(0);
+  const renderScreen = () => {
+    if (!userNumber && guessRounds === 0) {
+      return <StartGameScreen setUserNumber={setUserNumber} />;
+    }
+    if (!userNumber && guessRounds > 0) {
+      return <GameOverScreen setGuessRounds={setGuessRounds} />;
+    }
+    if (userNumber) {
+      return (
+        <GameScreen
+          userChoice={userNumber}
+          setUserNumber={setUserNumber}
+          setGuessRounds={setGuessRounds}
+        />
+      );
+    }
+  };
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled
@@ -25,11 +44,7 @@ const App = () => {
           rightComponent={{ icon: "home", color: "#fff" }}
           containerStyle={{ marginTop: 20 }}
         />
-        {!userNumber ? (
-          <StartGameScreen setUserNumber={setUserNumber} />
-        ) : (
-          <GameScreen userChoice={userNumber} setUserNumber={setUserNumber} />
-        )}
+        {renderScreen()}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

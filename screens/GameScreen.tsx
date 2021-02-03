@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-elements";
 
 interface Props {
   setUserNumber: React.Dispatch<React.SetStateAction<number | null>>;
+  setGuessRounds: React.Dispatch<React.SetStateAction<number>>;
   userChoice: number;
 }
 
@@ -18,12 +19,19 @@ const genRandNum = (min: number, max: number, exlude: number): number => {
   }
 };
 
-const GameScreen: React.FC<Props> = ({ userChoice, setUserNumber }) => {
+const GameScreen: React.FC<Props> = ({
+  userChoice,
+  setUserNumber,
+  setGuessRounds
+}) => {
   const [currGuess, setCurrGuess] = useState<number>(
     genRandNum(1, 100, userChoice)
   );
   const currentLow = useRef<number>(1);
   const currentHigh = useRef<number>(100);
+  useEffect(() => {
+    setGuessRounds(g => g + 1);
+  }, [userChoice]);
   const guessNextHandler = (value: "lower" | "greater") => {
     if (
       (value === "lower" && currGuess < userChoice) ||
@@ -34,13 +42,7 @@ const GameScreen: React.FC<Props> = ({ userChoice, setUserNumber }) => {
       ]);
     }
     if (currGuess === userChoice) {
-      return Alert.alert("You win", "", [
-        {
-          text: "Try Again",
-          style: "cancel",
-          onPress: () => setUserNumber(null)
-        }
-      ]);
+      return setUserNumber(null);
     }
     if (value === "lower") {
       currentHigh.current = currGuess;

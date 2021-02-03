@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Keyboard,
   SafeAreaView,
@@ -6,10 +6,12 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import { Header } from "react-native-elements";
+import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 // import Header from "./components/Header";
 
 const App = () => {
+  const [userNumber, setUserNumber] = useState<number | null>(null);
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled
@@ -23,7 +25,11 @@ const App = () => {
           rightComponent={{ icon: "home", color: "#fff" }}
           containerStyle={{ marginTop: 20 }}
         />
-        <StartGameScreen />
+        {!userNumber ? (
+          <StartGameScreen setUserNumber={setUserNumber} />
+        ) : (
+          <GameScreen userChoice={userNumber} />
+        )}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

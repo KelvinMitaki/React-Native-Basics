@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Alert, Keyboard, StyleSheet, View } from "react-native";
 import { Button, Card, Input, Text } from "react-native-elements";
 
-const StartGameScreen = () => {
+interface Props {
+  setUserNumber: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+const StartGameScreen: React.FC<Props> = ({ setUserNumber }) => {
   const [inp, setInp] = useState<string>("");
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const [confirm, setConfirm] = useState<boolean>(false);
@@ -58,7 +62,10 @@ const StartGameScreen = () => {
         <Card>
           <Card.Title>You Selected</Card.Title>
           <Text style={styles.num}>{selectedNumber}</Text>
-          <Button title="Start Game" />
+          <Button
+            title="Start Game"
+            onPress={() => setUserNumber(selectedNumber)}
+          />
         </Card>
       ) : null}
     </View>

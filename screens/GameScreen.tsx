@@ -3,6 +3,7 @@ import { Alert, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-elements";
 
 interface Props {
+  setUserNumber: React.Dispatch<React.SetStateAction<number | null>>;
   userChoice: number;
 }
 
@@ -17,7 +18,7 @@ const genRandNum = (min: number, max: number, exlude: number): number => {
   }
 };
 
-const GameScreen: React.FC<Props> = ({ userChoice }) => {
+const GameScreen: React.FC<Props> = ({ userChoice, setUserNumber }) => {
   const [currGuess, setCurrGuess] = useState<number>(
     genRandNum(1, 100, userChoice)
   );
@@ -30,6 +31,15 @@ const GameScreen: React.FC<Props> = ({ userChoice }) => {
     ) {
       return Alert.alert("Don't Lie", "You know this is wrong", [
         { text: "Try Again", style: "cancel" }
+      ]);
+    }
+    if (currGuess === userChoice) {
+      return Alert.alert("You win", "", [
+        {
+          text: "Try Again",
+          style: "cancel",
+          onPress: () => setUserNumber(null)
+        }
       ]);
     }
     if (value === "lower") {

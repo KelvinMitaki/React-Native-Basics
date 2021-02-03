@@ -28,7 +28,7 @@ const App = () => {
         {!userNumber ? (
           <StartGameScreen setUserNumber={setUserNumber} />
         ) : (
-          <GameScreen userChoice={userNumber} />
+          <GameScreen userChoice={userNumber} setUserNumber={setUserNumber} />
         )}
       </SafeAreaView>
     </TouchableWithoutFeedback>

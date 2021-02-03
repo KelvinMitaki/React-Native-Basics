@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Button, Card } from "react-native-elements";
+import React, { useRef, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { Button, Card, Text } from "react-native-elements";
 
 interface Props {
   userChoice: number;
@@ -21,16 +21,51 @@ const GameScreen: React.FC<Props> = ({ userChoice }) => {
   const [currGuess, setCurrGuess] = useState<number>(
     genRandNum(1, 100, userChoice)
   );
-
+  const currentLow = useRef<number>(1);
+  const currentHigh = useRef<number>(100);
+  const guessNextHandler = (value: "lower" | "greater") => {
+    if (
+      (value === "lower" && currGuess < userChoice) ||
+      (value === "greater" && currGuess > userChoice)
+    ) {
+      return Alert.alert("Don't Lie", "You know this is wrong", [
+        { text: "Try Again", style: "cancel" }
+      ]);
+    }
+    if (value === "lower") {
+      currentHigh.current = currGuess;
+    } else {
+      currentLow.current = currGuess;
+    }
+    const nextGuess = genRandNum(
+      currentLow.current,
+      currentHigh.current,
+      currGuess
+    );
+    setCurrGuess(nextGuess);
+  };
   return (
     <View>
-      <Text>Opponent's Guess</Text>
-      <Text style={styles.num}>{currGuess}</Text>
       <Card>
-        <View style={styles.btn}>
-          <Button title="LOWER" onPress={() => {}} />
-          <Button title="GREATER" onPress={() => {}} />
-        </View>
+        <Text h4 h4Style={{ alignSelf: "center" }}>
+          Opponent's Guess
+        </Text>
+        <Text style={styles.num}>{currGuess}</Text>
+        <Card>
+          <View style={styles.btn}>
+            <Button
+              containerStyle={{ width: "45%" }}
+              title="LOWER"
+              onPress={() => guessNextHandler("lower")}
+              type="outline"
+            />
+            <Button
+              containerStyle={{ width: "45%" }}
+              title="GREATER"
+              onPress={() => guessNextHandler("greater")}
+            />
+          </View>
+        </Card>
       </Card>
     </View>
   );
@@ -47,9 +82,10 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 30,
     color: "#e905e9",
-    marginBottom: 15
+    marginVertical: 15
   },
   btn: {
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-around"
   }
 });

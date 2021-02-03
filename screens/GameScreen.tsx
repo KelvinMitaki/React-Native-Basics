@@ -31,7 +31,10 @@ const GameScreen: React.FC<Props> = ({
   const currentHigh = useRef<number>(100);
   useEffect(() => {
     setGuessRounds(g => g + 1);
-  }, [userChoice]);
+    if (currGuess === userChoice) {
+      return setUserNumber(null);
+    }
+  }, [userChoice, currGuess]);
   const guessNextHandler = (value: "lower" | "greater") => {
     if (
       (value === "lower" && currGuess < userChoice) ||
@@ -41,9 +44,7 @@ const GameScreen: React.FC<Props> = ({
         { text: "Try Again", style: "cancel" }
       ]);
     }
-    if (currGuess === userChoice) {
-      return setUserNumber(null);
-    }
+
     if (value === "lower") {
       currentHigh.current = currGuess;
     } else {

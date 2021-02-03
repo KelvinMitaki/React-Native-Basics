@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Card, Text } from "react-native-elements";
+import { Button, Card, Input, Text } from "react-native-elements";
 
 const StartGameScreen = () => {
+  const [inp, setInp] = useState<number | null>(null);
+  console.log(inp);
   return (
     <View>
-      <Text h4>Start a New Game</Text>
+      <Text h4 h4Style={{ alignSelf: "center" }}>
+        Start a New Game
+      </Text>
       <Card>
         <Card.Title>Select a Number</Card.Title>
+        <Input
+          keyboardType="numeric"
+          maxLength={2}
+          onChangeText={t => {
+            if (parseInt(t).toString() !== NaN.toString()) {
+              console.log(parseInt(t).toString() !== NaN.toString());
+              setInp(parseInt(t));
+            }
+          }}
+          value={inp?.toString()}
+        />
         <View style={styles.btnPrt}>
           <Button containerStyle={styles.btn} type="outline" title="Reset" />
           <Button containerStyle={styles.btn} title="Confirm" />

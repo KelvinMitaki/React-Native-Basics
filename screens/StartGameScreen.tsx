@@ -3,8 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Card, Input, Text } from "react-native-elements";
 
 const StartGameScreen = () => {
-  const [inp, setInp] = useState<number | null>(null);
-  console.log(inp);
+  const [inp, setInp] = useState<string>("");
   return (
     <View>
       <Text h4 h4Style={{ alignSelf: "center" }}>
@@ -16,12 +15,11 @@ const StartGameScreen = () => {
           keyboardType="numeric"
           maxLength={2}
           onChangeText={t => {
-            if (parseInt(t).toString() !== NaN.toString()) {
-              console.log(parseInt(t).toString() !== NaN.toString());
-              setInp(parseInt(t));
+            if (/^\d+$/.test(t) || t === "") {
+              setInp(t);
             }
           }}
-          value={inp?.toString()}
+          value={inp}
         />
         <View style={styles.btnPrt}>
           <Button containerStyle={styles.btn} type="outline" title="Reset" />

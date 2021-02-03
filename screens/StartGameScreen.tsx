@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, Keyboard, StyleSheet, View } from "react-native";
 import { Button, Card, Input, Text } from "react-native-elements";
 
 const StartGameScreen = () => {
   const [inp, setInp] = useState<string>("");
+  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const [confirm, setConfirm] = useState<boolean>(false);
   return (
     <View>
       <Text h4 h4Style={{ alignSelf: "center" }}>
@@ -21,11 +23,44 @@ const StartGameScreen = () => {
           }}
           value={inp}
         />
+
         <View style={styles.btnPrt}>
-          <Button containerStyle={styles.btn} type="outline" title="Reset" />
-          <Button containerStyle={styles.btn} title="Confirm" />
+          <Button
+            containerStyle={styles.btn}
+            type="outline"
+            title="Reset"
+            onPress={() => {
+              setConfirm(false);
+              setInp("");
+            }}
+          />
+          <Button
+            containerStyle={styles.btn}
+            title="Confirm"
+            onPress={() => {
+              const num = parseInt(inp);
+              if (isNaN(num) || num < 1 || num > 99) {
+                return Alert.alert(
+                  "Invalid Number",
+                  "Number has to be between 1 and 99",
+                  [{ text: "Okay", style: "cancel", onPress: () => setInp("") }]
+                );
+              }
+              Keyboard.dismiss();
+              setConfirm(true);
+              setSelectedNumber(num);
+              setInp("");
+            }}
+          />
         </View>
       </Card>
+      {selectedNumber ? (
+        <Card>
+          <Card.Title>You Selected</Card.Title>
+          <Text style={styles.num}>{selectedNumber}</Text>
+          <Button title="Start Game" />
+        </Card>
+      ) : null}
     </View>
   );
 };
@@ -39,5 +74,15 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "30%"
+  },
+  num: {
+    borderWidth: 1,
+    borderColor: "#e905e9",
+    borderRadius: 4,
+    alignSelf: "center",
+    padding: 4,
+    fontSize: 30,
+    color: "#e905e9",
+    marginBottom: 15
   }
 });

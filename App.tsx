@@ -11,7 +11,10 @@ import StartGameScreen from "./screens/StartGameScreen";
 
 const App = () => {
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      touchSoundDisabled
+      onPress={() => Keyboard.dismiss()}
+    >
       <SafeAreaView style={styles.view}>
         <Header
           placement="left"

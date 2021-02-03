@@ -1,6 +1,7 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Button, Header } from "react-native-elements";
+import StartGameScreen from "./screens/StartGameScreen";
 // import Header from "./components/Header";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
         rightComponent={{ icon: "home", color: "#fff" }}
         containerStyle={{ marginTop: 20 }}
       />
+      <StartGameScreen />
     </SafeAreaView>
   );
 };

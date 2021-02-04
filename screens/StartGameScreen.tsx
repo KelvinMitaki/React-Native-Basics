@@ -12,7 +12,7 @@ const StartGameScreen: React.FC<Props> = ({ setUserNumber }) => {
   const [confirm, setConfirm] = useState<boolean>(false);
   return (
     <View>
-      <Text h4 h4Style={{ alignSelf: "center" }}>
+      <Text h4 h4Style={{ alignSelf: "center", fontFamily: "open-sans" }}>
         Start a New Game
       </Text>
       <Card>

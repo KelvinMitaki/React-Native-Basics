@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, ScrollView } from "react-native";
 import { Button, Image, Text } from "react-native-elements";
 
 interface Props {
@@ -14,32 +14,38 @@ const GameOverScreen: React.FC<Props> = ({
   guessRounds
 }) => {
   return (
-    <View style={styles.view}>
-      <Text h4>The game is over</Text>
-      <View
-        style={{
-          borderRadius: Dimensions.get("window").width * 0.35,
-          overflow: "hidden"
-        }}
-      >
-        <Image
-          source={require("../assets/success.png")}
+    <ScrollView>
+      <View style={styles.view}>
+        <Text h4>The game is over</Text>
+        <View
           style={{
-            height: Dimensions.get("window").width * 0.7,
-            width: Dimensions.get("window").width * 0.7
+            borderRadius: Dimensions.get("window").width * 0.35,
+            overflow: "hidden",
+            borderColor: "black",
+            borderWidth: 1
           }}
+        >
+          <Image
+            source={require("../assets/success.png")}
+            style={{
+              height: Dimensions.get("window").width * 0.7,
+              width: Dimensions.get("window").width * 0.7
+            }}
+          />
+        </View>
+        <Text h4>
+          Number of rounds: {guessRounds && guessRounds.toLocaleString()}
+        </Text>
+        <Text h4>
+          Number was: {finalNumber && finalNumber.toLocaleString()}
+        </Text>
+        <Button
+          title="Restart"
+          containerStyle={{ width: "50%", marginTop: 20 }}
+          onPress={() => setGuessRounds(0)}
         />
       </View>
-      <Text h4>
-        Number of rounds: {guessRounds && guessRounds.toLocaleString()}
-      </Text>
-      <Text h4>Number was: {finalNumber && finalNumber.toLocaleString()}</Text>
-      <Button
-        title="Restart"
-        containerStyle={{ width: "50%", marginTop: 20 }}
-        onPress={() => setGuessRounds(0)}
-      />
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Dimensions, ScrollView } from "react-native";
 import { Button, Image, Text } from "react-native-elements";
 
@@ -14,13 +14,30 @@ const GameOverScreen: React.FC<Props> = ({
   guessRounds
 }) => {
   const [dime, setDime] = useState<"width" | "height">("width");
-  Dimensions.addEventListener("change", () => {
+  useEffect(() => {
     const window = Dimensions.get("window");
-    if (window.height > window.width) {
+    if (window.height > window.width && dime !== "width") {
       setDime("width");
     } else {
-      setDime("height");
+      dime !== "height" && setDime("height");
     }
+    Dimensions.addEventListener("change", () => {
+      if (window.height > window.width) {
+        setDime("width");
+      } else {
+        setDime("height");
+      }
+    });
+    return () => {
+      Dimensions.removeEventListener("change", () => {
+        const window = Dimensions.get("window");
+        if (window.height > window.width) {
+          setDime("width");
+        } else {
+          setDime("height");
+        }
+      });
+    };
   });
   return (
     <ScrollView>

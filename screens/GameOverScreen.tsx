@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Dimensions, ScrollView } from "react-native";
 import { Button, Image, Text } from "react-native-elements";
 
@@ -13,13 +13,22 @@ const GameOverScreen: React.FC<Props> = ({
   finalNumber,
   guessRounds
 }) => {
+  const [dime, setDime] = useState<"width" | "height">("width");
+  Dimensions.addEventListener("change", () => {
+    const window = Dimensions.get("window");
+    if (window.height > window.width) {
+      setDime("width");
+    } else {
+      setDime("height");
+    }
+  });
   return (
     <ScrollView>
       <View style={styles.view}>
         <Text h4>The game is over</Text>
         <View
           style={{
-            borderRadius: Dimensions.get("window").width * 0.35,
+            borderRadius: Dimensions.get("window")[dime] * 0.35,
             overflow: "hidden",
             borderColor: "black",
             borderWidth: 1
@@ -28,8 +37,8 @@ const GameOverScreen: React.FC<Props> = ({
           <Image
             source={require("../assets/success.png")}
             style={{
-              height: Dimensions.get("window").width * 0.7,
-              width: Dimensions.get("window").width * 0.7
+              height: Dimensions.get("window")[dime] * 0.7,
+              width: Dimensions.get("window")[dime] * 0.7
             }}
           />
         </View>

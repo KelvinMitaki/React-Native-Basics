@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { Button, Image, Text } from "react-native-elements";
 
 interface Props {
@@ -16,10 +16,18 @@ const GameOverScreen: React.FC<Props> = ({
   return (
     <View style={styles.view}>
       <Text h4>The game is over</Text>
-      <View style={{ borderRadius: 200, overflow: "hidden" }}>
+      <View
+        style={{
+          borderRadius: Dimensions.get("window").width * 0.35,
+          overflow: "hidden"
+        }}
+      >
         <Image
           source={require("../assets/success.png")}
-          style={{ height: 200, width: 200 }}
+          style={{
+            height: Dimensions.get("window").width * 0.7,
+            width: Dimensions.get("window").width * 0.7
+          }}
         />
       </View>
       <Text h4>

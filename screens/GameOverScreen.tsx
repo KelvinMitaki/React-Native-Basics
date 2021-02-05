@@ -16,10 +16,12 @@ const GameOverScreen: React.FC<Props> = ({
   return (
     <View style={styles.view}>
       <Text h4>The game is over</Text>
-      <Image
-        source={require("../assets/success.png")}
-        style={{ height: 200, width: 200 }}
-      />
+      <View style={{ borderRadius: 200, overflow: "hidden" }}>
+        <Image
+          source={require("../assets/success.png")}
+          style={{ height: 200, width: 200 }}
+        />
+      </View>
       <Text h4>
         Number of rounds: {guessRounds && guessRounds.toLocaleString()}
       </Text>
